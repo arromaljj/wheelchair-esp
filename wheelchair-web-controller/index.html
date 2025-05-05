@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wheelchair Web Controller</title>
+  <!-- Paho MQTT JavaScript client -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+  <!-- nipplejs for virtual joystick -->
+  <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.9.0/dist/nipplejs.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <h1>Wheelchair Web Controller</h1>
+
+  <div id="connection-status">
+    MQTT Status: <span id="mqtt-status">Disconnected</span>
+  </div>
+
+  <section id="manual-control">
+    <h2>Manual Motor Command</h2>
+    <label>Left Speed: <input type="number" id="manual-left" min="-100" max="100" value="0"></label>
+    <label>Right Speed: <input type="number" id="manual-right" min="-100" max="100" value="0"></label>
+    <button id="manual-send">Send</button>
+  </section>
+
+  <section id="periodic-control">
+    <h2>Periodic Motor Command</h2>
+    <label>Left Speed: <input type="number" id="periodic-left" min="-100" max="100" value="0"></label>
+    <label>Right Speed: <input type="number" id="periodic-right" min="-100" max="100" value="0"></label>
+    <label>Interval (ms): <input type="number" id="periodic-interval" min="50" value="200"></label>
+    <button id="periodic-toggle">Start</button>
+  </section>
+
+  <section id="emergency-control">
+    <h2>Emergency Control</h2>
+    <button id="emergency-stop">EMERGENCY STOP</button>
+    <button id="emergency-start">START MOTORS</button>
+  </section>
+
+  <section id="status-display">
+    <h2>Motor State</h2>
+    <div>Left Speed: <span id="state-left">0</span></div>
+    <div>Right Speed: <span id="state-right">0</span></div>
+  </section>
+
+  <section id="joystick-control">
+    <h2>Joystick Control</h2>
+    <div class="joystick-settings">
+      <label>Min Speed: <input type="number" id="joystick-min" min="0" max="100" value="0"></label>
+      <label>Max Speed: <input type="number" id="joystick-max" min="0" max="100" value="100"></label>
+    </div>
+    <div id="joystick-zone"></div>
+  </section>
+</body>
+</html> 
