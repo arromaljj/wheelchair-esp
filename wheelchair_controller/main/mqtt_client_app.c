@@ -9,13 +9,12 @@
 #include "motor_control.h"
 #include "esp_crt_bundle.h"       // esp_crt_bundle_attach()
 #include "cJSON.h"                // For JSON parsing/creation
+#include "env_parser.h"
 
 static const char *TAG = "MQTT_APP";
 
 /* -------- Configuration (move to Kconfig later) -------------------------- */
 #define MQTT_BROKER_URI         "mqtts://ceff3b2fc9074ac487a7ba2d62c24ef5.s1.eu.hivemq.cloud:8883"
-#define MQTT_USERNAME           "wheelchair-esp32-1"
-#define MQTT_PASSWORD           "Wheelchair-reach1010"
 // New Topics
 #define MQTT_STATE_TOPIC        "wheelchair/state"         // Topic for publishing state
 #define MQTT_MOTOR_CMD_TOPIC    "wheelchair/command/motor" // Topic for receiving motor commands (JSON)
@@ -267,14 +266,17 @@ esp_err_t mqtt_app_start(void)
 {
     ESP_LOGI(TAG, "Starting MQTT client...");
 
+    const char *mqtt_user = get_env_value("MQTT_USERNAME");
+    const char *mqtt_pass = get_env_value("MQTT_PASSWORD");
+
     esp_mqtt_client_config_t cfg = {
         .broker = {
             .address.uri = MQTT_BROKER_URI,
             .verification.crt_bundle_attach = esp_crt_bundle_attach, /* key line */
         },
         .credentials = {
-            .username = MQTT_USERNAME,
-            .authentication.password = MQTT_PASSWORD,
+            .username = mqtt_user,
+            .authentication.password = mqtt_pass,
         },
         // Optional: Set last will and testament (LWT) to indicate unexpected disconnect
         // .session.last_will = {

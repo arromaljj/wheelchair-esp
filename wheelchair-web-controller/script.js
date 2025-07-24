@@ -2,8 +2,6 @@
 
 // MQTT connection parameters (WebSocket)
 const MQTT_BROKER = 'wss://ceff3b2fc9074ac487a7ba2d62c24ef5.s1.eu.hivemq.cloud:8884/mqtt'; // Update port/path if needed
-const MQTT_USERNAME = 'wheelchair-esp32-1';
-const MQTT_PASSWORD = 'Wheelchair-reach1010';
 
 // MQTT Topics
 const STATE_TOPIC = 'wheelchair/state';
@@ -187,9 +185,11 @@ function setupJoystick() {
     const minSpeed = parseInt(joystickMinEl.value, 10) || 0;
     const maxSpeed = parseInt(joystickMaxEl.value, 10) || 100;
 
-    // Mix for differential drive
-    let leftNorm = (normY + normX) / 2 * factor;
-    let rightNorm = (normY - normX) / 2 * factor;
+    // Mix for differential drive (Flipped Left/Right)
+    // Y-axis (normY) controls forward/backward speed.
+    // X-axis (normX) controls turning.
+    let leftNorm = (normY - normX) / 2 * factor;  // Steering: Positive X (right) decreases left speed
+    let rightNorm = (normY + normX) / 2 * factor; // Steering: Positive X (right) increases right speed
 
     const leftSpeed = Math.sign(leftNorm) * (minSpeed + (maxSpeed - minSpeed) * Math.abs(leftNorm));
     const rightSpeed = Math.sign(rightNorm) * (minSpeed + (maxSpeed - minSpeed) * Math.abs(rightNorm));

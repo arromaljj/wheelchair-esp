@@ -3,9 +3,7 @@
 
 #include "esp_event.h"
 
-// --- Configuration --- TODO: Move credentials to Kconfig or main.c for easier modification
-#define WIFI_SSID      "YOUR_WIFI_SSID"
-#define WIFI_PASS      "YOUR_WIFI_PASSWORD"
+// --- Configuration ---
 #define WIFI_MAXIMUM_RETRY  5
 
 // --- Function Declarations ---

@@ -1,2 +1,14 @@
-my_hello_world
-build/
+# macOS
+.DS_Store
+
+# Build artifacts
+/wheelchair_controller/build/
+/wheelchair_controller/sdkconfig
+
+# User specified
+my_hello_world/
+wheelchair_controller.zip
+
+# Environment variables
+/wheelchair_controller/main/.env
+/wheelchair-web-controller/config.js

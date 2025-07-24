@@ -9,12 +9,10 @@
 // Include the new module headers
 #include "wifi_manager.h"
 #include "motor_control.h"
+#include "env_parser.h"
 // web_server.h is implicitly included by wifi_manager.h which needs start/stop
 
 // --- Application Configuration ---
-#define APP_WIFI_SSID      "Glide-Resident" // Replace with actual SSID
-#define APP_WIFI_PASS      "PokerLandPlant" // Replace with actual Password
-
 static const char *TAG = "MAIN_APP";
 
 // --- Main Application ---
@@ -28,8 +26,15 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
 
+    // Parse the .env file
+    parse_env_file();
+
+    // Get WiFi credentials from .env
+    const char *wifi_ssid = get_env_value("WIFI_SSID");
+    const char *wifi_pass = get_env_value("WIFI_PASS");
+
     ESP_LOGI(TAG, "Initializing WiFi...");
-    wifi_init_sta(APP_WIFI_SSID, APP_WIFI_PASS); // Pass credentials
+    wifi_init_sta(wifi_ssid, wifi_pass); // Pass credentials
 
     ESP_LOGI(TAG, "Initializing Motor Control...");
     motor_control_init(); // Initialize motors
