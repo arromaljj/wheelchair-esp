@@ -6,3 +6,7 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 # "Trim" the build. Include the minimal set of components, main, and anything it depends on.
 # idf_build_set_property(MINIMAL_BUILD ON)
 project(hello_world)
+
+# Create a SPIFFS partition image from the 'spiffs' directory
+# This will be flashed to the 'spiffs' partition
+spiffs_create_partition_image(spiffs)
